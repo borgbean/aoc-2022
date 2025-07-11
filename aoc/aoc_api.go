@@ -50,7 +50,7 @@ func SaveInput(reader io.ReadCloser, outputFile string) error {
 
 	os.MkdirAll(path, 0777)
 
-	f, err := os.OpenFile(outputFile, os.O_CREATE, 0666)
+	f, err := os.OpenFile(outputFile, os.O_CREATE|os.O_WRONLY, 0666)
 
 	if err != nil {
 		return fmt.Errorf("couldn't open input file to save %w", err)
