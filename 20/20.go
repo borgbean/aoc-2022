@@ -185,17 +185,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	// 	input = `1
-	// 2
-	// -3
-	// 3
-	// -2
-	// 0
-	// 4
-	// `
-
 	fmt.Println(part1(input))
-
 	fmt.Println(part2(input))
 
 	fmt.Println((time.Since(start)))

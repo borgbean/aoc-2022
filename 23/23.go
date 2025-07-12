@@ -169,7 +169,6 @@ func part2(input string) string {
 		occupied[dpIdx] = true
 	}
 
-	// best := ((1 + maxI - minI) * (1 + maxJ - minJ)) - len(elves)
 	ans := -1
 
 	directionIdx := 0
@@ -224,7 +223,7 @@ func part2(input string) string {
 			}
 
 			if elf.i2 == elf.i && elf.j2 == elf.j {
-				panic("WTF")
+				panic("broken")
 			}
 			seens[dpIdx] = elf
 		}
@@ -241,7 +240,7 @@ func part2(input string) string {
 			moved = true
 
 			if elf.i2 == elf.i && elf.j2 == elf.j {
-				panic("WTF")
+				panic("broken")
 			}
 
 			occupied[dpIdx1] = false
@@ -274,7 +273,6 @@ func main() {
 	}
 
 	log.Println(part1(input))
-
 	log.Println(part2(input))
 
 	log.Println((time.Since(start)))

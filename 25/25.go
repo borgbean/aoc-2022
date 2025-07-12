@@ -2,7 +2,6 @@ package main
 
 import (
 	"aoc2022/aoc"
-	"fmt"
 	"log"
 	"strings"
 	"time"
@@ -41,7 +40,7 @@ func part1(input string) string {
 		sum += num
 	}
 
-	enFuckify := func(n int) string {
+	convertToStr := func(n int) string {
 		carry := 0
 		val := []int{}
 		for n > 0 || carry > 0 {
@@ -74,12 +73,10 @@ func part1(input string) string {
 		}
 		str := string(strB)
 
-		fmt.Println(str, "<-- (from)", val)
-
 		return str
 	}
 
-	return enFuckify(sum)
+	return convertToStr(sum)
 }
 
 func main() {

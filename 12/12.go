@@ -150,12 +150,6 @@ func main() {
 		log.Fatal(err)
 	}
 
-	// 	input = `Sabqponm
-	// abcryxxl
-	// accszExk
-	// acctuvwj
-	// abdefghi`
-
 	log.Println(part1(input))
 	log.Println(part2(input))
 

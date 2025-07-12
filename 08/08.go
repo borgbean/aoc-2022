@@ -137,12 +137,6 @@ func main() {
 		log.Fatal(err)
 	}
 
-	// 	input = `30373
-	// 25512
-	// 65332
-	// 33549
-	// 35390`
-
 	log.Println(part1(input))
 	log.Println(part2(input))
 }

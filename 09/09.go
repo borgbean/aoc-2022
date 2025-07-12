@@ -160,15 +160,6 @@ func main() {
 		log.Fatal(err)
 	}
 
-	// 	input = `R 5
-	// U 8
-	// L 8
-	// D 3
-	// R 17
-	// D 10
-	// L 25
-	// U 20`
-
 	log.Println(part1(input))
 	log.Println(part2(input))
 }
