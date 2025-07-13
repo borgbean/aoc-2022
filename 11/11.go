@@ -225,8 +225,6 @@ func part2(input string) string {
 		}
 	}
 
-	fmt.Println(inspectionCounts)
-
 	slices.Sort(inspectionCounts)
 
 	return fmt.Sprint(inspectionCounts[len(inspectionCounts)-1] * inspectionCounts[len(inspectionCounts)-2])
@@ -238,34 +236,6 @@ func main() {
 		log.Fatal(err)
 	}
 
-	// 	input = `Monkey 0:
-	//   Starting items: 79, 98
-	//   Operation: new = old * 19
-	//   Test: divisible by 23
-	//     If true: throw to monkey 2
-	//     If false: throw to monkey 3
-
-	// Monkey 1:
-	//   Starting items: 54, 65, 75, 74
-	//   Operation: new = old + 6
-	//   Test: divisible by 19
-	//     If true: throw to monkey 2
-	//     If false: throw to monkey 0
-
-	// Monkey 2:
-	//   Starting items: 79, 60, 97
-	//   Operation: new = old * old
-	//   Test: divisible by 13
-	//     If true: throw to monkey 1
-	//     If false: throw to monkey 3
-
-	// Monkey 3:
-	//   Starting items: 74
-	//   Operation: new = old + 3
-	//   Test: divisible by 17
-	//     If true: throw to monkey 0
-	//     If false: throw to monkey 1`
-
-	log.Println(part1(input))
-	log.Println(part2(input))
+	fmt.Println(part1(input))
+	fmt.Println(part2(input))
 }

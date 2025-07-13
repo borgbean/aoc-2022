@@ -74,8 +74,6 @@ func part1(input string) string {
 		}
 		str := string(strB)
 
-		fmt.Println(str, "<-- (from)", val)
-
 		return str
 	}
 
@@ -90,7 +88,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	log.Println(part1(input))
+	fmt.Println(part1(input))
 
 	log.Println((time.Since(start)))
 }

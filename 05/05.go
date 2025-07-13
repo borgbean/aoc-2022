@@ -2,6 +2,7 @@ package main
 
 import (
 	"aoc2022/aoc"
+	"fmt"
 	"log"
 	"regexp"
 	"strconv"
@@ -134,6 +135,6 @@ func main() {
 	// move 2 from 2 to 1
 	// move 1 from 1 to 2`
 
-	log.Println(part1(input))
-	log.Println(part2(input))
+	fmt.Println(part1(input))
+	fmt.Println(part2(input))
 }

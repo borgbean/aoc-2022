@@ -169,6 +169,6 @@ func main() {
 	// L 25
 	// U 20`
 
-	log.Println(part1(input))
-	log.Println(part2(input))
+	fmt.Println(part1(input))
+	fmt.Println(part2(input))
 }

@@ -283,9 +283,9 @@ func main() {
 	// Blueprint 2: Each ore robot costs 2 ore. Each clay robot costs 3 ore. Each obsidian robot costs 3 ore and 8 clay. Each geode robot costs 3 ore and 12 obsidian.
 	// `
 
-	log.Println(part1(input))
+	fmt.Println(part1(input))
 
-	log.Println(part2(input))
+	fmt.Println(part2(input))
 
 	log.Println((time.Since(start)))
 }

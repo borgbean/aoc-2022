@@ -174,8 +174,8 @@ func main() {
 		log.Fatal(err)
 	}
 
-	log.Println(part1(input))
-	log.Println(part2(input))
+	fmt.Println(part1(input))
+	fmt.Println(part2(input))
 
 	log.Println((time.Since(start)))
 }

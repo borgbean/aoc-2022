@@ -320,9 +320,9 @@ func main() {
 	// Valve II has flow rate=0; tunnels lead to valves AA, JJ
 	// Valve JJ has flow rate=21; tunnel leads to valve II`
 
-	log.Println(part1(input))
+	fmt.Println(part1(input))
 
-	log.Println(part2(input))
+	fmt.Println(part2(input))
 
 	log.Println((time.Since(start)))
 }
