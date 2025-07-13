@@ -96,7 +96,7 @@ func part2(input string) string {
 	groupParents := []int{0, 1, 2}
 
 	bfs := func(x, y, z int) int {
-		s := [][3]int{[3]int{x, y, z}}
+		s := [][3]int{{x, y, z}}
 		s2 := [][3]int{}
 
 		group := len(groupParents)
@@ -202,40 +202,8 @@ func main() {
 		log.Fatal(err)
 	}
 
-	// input = `2,2,2
-	// 1,2,2
-	// 3,2,2
-	// 2,1,2
-	// 2,3,2
-	// 2,2,1
-	// 2,2,3
-	// 2,2,4
-	// 2,2,6
-	// 1,2,5
-	// 3,2,5
-	// 2,1,5
-	// 2,3,5`
-	// 	input = `1,1,1
-	// 2,1,1`
-
 	fmt.Println(part1(input))
-
 	fmt.Println(part2(input))
 
 	log.Println((time.Since(start)))
 }
-
-/*
-
-(
-
-	(
-		(, )?
-
-		([^,]+)
-	)+
-
-)
-
-
-*/

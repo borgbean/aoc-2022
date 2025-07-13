@@ -136,7 +136,6 @@ func part2(input string) string {
 
 		dpToHeight[it] = top
 		if dp[dpIdx] > 0 {
-			fmt.Println(it, "::", dp[dpIdx])
 			dp1, dp2 = dp[dpIdx], it
 			break
 		}
@@ -150,10 +149,6 @@ func part2(input string) string {
 	result := (dpToHeight[dp2] - dpToHeight[dp1]) * cycles
 	target -= cycleLen * cycles
 	result += dpToHeight[target-1]
-
-	// target/cycles
-
-	fmt.Println(dp1, dp2)
 
 	return fmt.Sprint(result)
 }
@@ -210,12 +205,9 @@ func intersects(shape []string, row, col int, field [][7]bool) bool {
 }
 
 func drawShape(shape []string, row, col int, field [][7]bool) {
-	for i := 0; i < len(shape); i++ {
-		for j := 0; j < len(shape[i]); j++ {
+	for i := range shape {
+		for j := range len(shape[i]) {
 			if shape[i][j] == '#' {
-				if field[row+i][j+col] {
-					fmt.Println("FUCK")
-				}
 				field[row+i][j+col] = true
 			}
 		}
@@ -230,26 +222,8 @@ func main() {
 		log.Fatal(err)
 	}
 
-	// input = `>>><<><>><<<>><>>><<<>>><<<><<<>><>><<>>`
-
 	fmt.Println(part1(input))
-
 	fmt.Println(part2(input))
 
 	log.Println((time.Since(start)))
 }
-
-/*
-
-(
-
-	(
-		(, )?
-
-		([^,]+)
-	)+
-
-)
-
-
-*/

@@ -20,8 +20,6 @@ func part1(input string) int {
 		if op1 == op2 {
 			score += 3
 		} else {
-			//r, p, s
-			// r > s, p > r, s > p
 			if (op1 == 0 && op2 == 1) ||
 				(op1 == 1 && op2 == 2) ||
 				(op1 == 2 && op2 == 0) {
@@ -75,10 +73,6 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	// 	input = `A Y
-	// B X
-	// C Z`
 
 	fmt.Println(part1(input))
 	fmt.Println(part2(input))

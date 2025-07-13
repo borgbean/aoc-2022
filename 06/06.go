@@ -85,12 +85,6 @@ func main() {
 		log.Fatal(err)
 	}
 
-	// 	input = `mjqjpqmgbljsphdztnvjfqwrcgsmlb
-	// bvwbjplbgvbhsrlpgdmjqwftvncz
-	// nppdvjthqldpwncqszvftbrmjlhg
-	// nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg
-	// zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw`
-
 	fmt.Println(part1(input))
 	fmt.Println(part2(input))
 }

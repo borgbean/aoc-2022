@@ -62,9 +62,6 @@ func part1(input string) string {
 					log.Panic("bad file size", lines[i])
 				}
 
-				// filename := split[1]  // disregard
-
-				//TODO add size to folder
 				curFolder.size += size
 
 				i++
@@ -110,11 +107,10 @@ func part1(input string) string {
 	for len(q) > 0 {
 		for _, curFolder := range q {
 			if idsSeen[curFolder.id] {
-				log.Panic("fuck")
+				log.Panic("broken")
 			}
 			idsSeen[curFolder.id] = true
 
-			//todo if curFolder.size < whatever....
 			if curFolder.size <= 100000 {
 				result += curFolder.size
 			}
@@ -180,9 +176,6 @@ func part2(input string) string {
 					log.Panic("bad file size", lines[i])
 				}
 
-				// filename := split[1]  // disregard
-
-				//TODO add size to folder
 				curFolder.size += size
 
 				i++
@@ -226,7 +219,7 @@ func part2(input string) string {
 	for len(q) > 0 {
 		for _, curFolder := range q {
 			if idsSeen[curFolder.id] {
-				log.Panic("fuck")
+				log.Panic("broken")
 			}
 			idsSeen[curFolder.id] = true
 
@@ -275,30 +268,6 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	// 	input = `$ cd /
-	// $ ls
-	// dir a
-	// 14848514 b.txt
-	// 8504156 c.dat
-	// dir d
-	// $ cd a
-	// $ ls
-	// dir e
-	// 29116 f
-	// 2557 g
-	// 62596 h.lst
-	// $ cd e
-	// $ ls
-	// 584 i
-	// $ cd ..
-	// $ cd ..
-	// $ cd d
-	// $ ls
-	// 4060174 j
-	// 8033020 d.log
-	// 5626152 d.ext
-	// 7214296 k`
 
 	fmt.Println(part1(input))
 	fmt.Println(part2(input))

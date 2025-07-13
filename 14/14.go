@@ -201,9 +201,6 @@ func main() {
 		log.Fatal(err)
 	}
 
-	// 	input = `498,4 -> 498,6 -> 496,6
-	// 503,4 -> 502,4 -> 502,9 -> 494,9`
-
 	fmt.Println(part1(input))
 	fmt.Println(part2(input))
 
