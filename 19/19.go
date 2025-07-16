@@ -64,7 +64,7 @@ func part1(input string) string {
 				continue
 			}
 
-			best = max(best, cur.geode, -blueprint)
+			best = max(best, cur.geode)
 
 			if cur.t == totalTime {
 				continue
@@ -174,18 +174,9 @@ func part2(input string) string {
 			cur := s[len(s)-1]
 			s = s[:len(s)-1]
 
-			if cur.obsidianRobot > 0 && best > 0 {
-				curNext := cur
-				for t := cur.t; t < totalTime; t++ {
-					curNext = jumpTo(curNext, curNext, curNext.t, curNext.t+1)
-					curNext.geodeRobot++
-				}
-				if curNext.geode <= best {
-					continue
-				}
-			}
-
-			if cur.t > totalTime {
+			timeLeft := totalTime - cur.t
+			maximal := cur.geode + (timeLeft * cur.geodeRobot) + (timeLeft*(timeLeft-1))/2
+			if maximal <= best {
 				continue
 			}
 
@@ -193,6 +184,26 @@ func part2(input string) string {
 
 			if cur.t == totalTime {
 				continue
+			}
+
+			// buy a geode robot if possible
+			if cur.obsidianRobot > 0 && cur.ore >= geodeRobotCostOre {
+				duration := max(0,
+					((cur.oreRobot-1)+geodeRobotCostOre-cur.ore)/cur.oreRobot,
+					((cur.obsidianRobot-1)+geodeRobotCostObs-cur.obsidian)/cur.obsidianRobot)
+
+				curNext := jumpTo(cur, cur, cur.t, cur.t+1+duration)
+
+				curNext.ore -= geodeRobotCostOre
+				curNext.obsidian -= geodeRobotCostObs
+				curNext.geodeRobot += 1
+
+				if curNext.t <= totalTime {
+					s = append(s, curNext)
+				}
+				if duration == 0 {
+					continue
+				}
 			}
 
 			//buy an ore robot if possible
@@ -237,22 +248,6 @@ func part2(input string) string {
 				}
 			}
 
-			// buy a geode robot if possible
-			if cur.obsidianRobot > 0 && cur.ore >= geodeRobotCostOre {
-				duration := max(0,
-					((cur.oreRobot-1)+geodeRobotCostOre-cur.ore)/cur.oreRobot,
-					((cur.obsidianRobot-1)+geodeRobotCostObs-cur.obsidian)/cur.obsidianRobot)
-
-				curNext := jumpTo(cur, cur, cur.t, cur.t+1+duration)
-
-				curNext.ore -= geodeRobotCostOre
-				curNext.obsidian -= geodeRobotCostObs
-				curNext.geodeRobot += 1
-
-				if curNext.t <= totalTime {
-					s = append(s, curNext)
-				}
-			}
 		}
 
 		ret *= best
