@@ -10,9 +10,12 @@ import (
 )
 
 type node struct {
-	prev, next *node
-	val        int64
+	prev, next         *node
+	nextJump, prevJump *node
+	val                int64
 }
+
+const JUMP_AMOUNT = 10
 
 func part1(input string) string {
 	lines := strings.Split(input, "\n")
@@ -30,7 +33,7 @@ func part1(input string) string {
 		}
 
 		nodes = append(nodes, &node{
-			nil, nil, int64(num),
+			nil, nil, nil, nil, int64(num),
 		})
 
 		if len(nodes) > 1 {
@@ -41,22 +44,50 @@ func part1(input string) string {
 	nodes[0].prev = nodes[len(nodes)-1]
 	nodes[len(nodes)-1].next = nodes[0]
 
+	for i := range nodes {
+		nodes[i].nextJump = nodes[(i+JUMP_AMOUNT)%len(nodes)]
+		nodes[i].prevJump = nodes[(len(nodes)+i-JUMP_AMOUNT)%len(nodes)]
+	}
+
 	for _, node := range nodes {
+
 		cur := node
-		if cur.val == 0 {
+
+		val := int(max(node.val, -node.val) % int64(len(nodes)-1))
+
+		if val == 0 {
 			continue
 		}
+
+		positive := node.val > 0
+		if val > (len(nodes) / 2) {
+			val = (len(nodes) - 1) - val
+			positive = !positive
+		}
+
 		cur.prev.next = cur.next
 		cur.next.prev = cur.prev
-		for range max(node.val, -node.val) {
-			if node.val > 0 {
-				//forward
+
+		oldLeft := cur.prev
+
+		for val >= JUMP_AMOUNT {
+			if positive {
+				cur = cur.nextJump
+			} else {
+				cur = cur.prevJump
+			}
+			val -= JUMP_AMOUNT
+		}
+		for val > 0 {
+			if positive {
 				cur = cur.next
 			} else {
 				cur = cur.prev
 			}
+			val -= 1
 		}
-		if node.val > 0 {
+
+		if positive {
 			node.next = cur.next
 			node.prev = cur
 			cur.next = node
@@ -66,6 +97,34 @@ func part1(input string) string {
 			node.prev = cur.prev
 			cur.prev = node
 			node.prev.next = node
+		}
+
+		{
+			tmp := oldLeft
+			for range JUMP_AMOUNT {
+				tmp = tmp.prev
+			}
+			r := oldLeft
+			for range 1 + JUMP_AMOUNT*2 {
+				tmp.nextJump = r
+				r.prevJump = tmp
+				tmp = tmp.next
+				r = r.next
+			}
+		}
+
+		{
+			tmp := node
+			for range JUMP_AMOUNT {
+				tmp = tmp.prev
+			}
+			r := node
+			for range 1 + JUMP_AMOUNT*2 {
+				tmp.nextJump = r
+				r.prevJump = tmp
+				tmp = tmp.next
+				r = r.next
+			}
 		}
 
 	}
@@ -96,25 +155,30 @@ func part2(input string) string {
 		lines = lines[:len(lines)-1]
 	}
 
-	nodes := make([]*node, 0, len(lines))
+	nodes := make([]*node, len(lines))
 
-	for _, line := range lines {
+	for i, line := range lines {
 		num, err := strconv.Atoi(line)
 		if err != nil {
 			log.Panic("failed to parse line", line, err)
 		}
 
-		nodes = append(nodes, &node{
-			nil, nil, int64(num) * 811589153,
-		})
+		nodes[i] = &node{
+			nil, nil, nil, nil, int64(num) * 811589153,
+		}
 
-		if len(nodes) > 1 {
-			nodes[len(nodes)-1].prev = nodes[len(nodes)-2]
-			nodes[len(nodes)-2].next = nodes[len(nodes)-1]
+		if i > 0 {
+			nodes[i].prev = nodes[i-1]
+			nodes[i-1].next = nodes[i]
 		}
 	}
 	nodes[0].prev = nodes[len(nodes)-1]
 	nodes[len(nodes)-1].next = nodes[0]
+
+	for i := range nodes {
+		nodes[i].nextJump = nodes[(i+JUMP_AMOUNT)%len(nodes)]
+		nodes[i].prevJump = nodes[(len(nodes)+i-JUMP_AMOUNT)%len(nodes)]
+	}
 
 	for range 10 {
 		for _, node := range nodes {
@@ -135,14 +199,25 @@ func part2(input string) string {
 			cur.prev.next = cur.next
 			cur.next.prev = cur.prev
 
-			for range val {
+			oldLeft := cur.prev
+
+			for val >= JUMP_AMOUNT {
 				if positive {
-					//forward
+					cur = cur.nextJump
+				} else {
+					cur = cur.prevJump
+				}
+				val -= JUMP_AMOUNT
+			}
+			for val > 0 {
+				if positive {
 					cur = cur.next
 				} else {
 					cur = cur.prev
 				}
+				val -= 1
 			}
+
 			if positive {
 				node.next = cur.next
 				node.prev = cur
@@ -153,6 +228,34 @@ func part2(input string) string {
 				node.prev = cur.prev
 				cur.prev = node
 				node.prev.next = node
+			}
+
+			{
+				tmp := oldLeft
+				for range JUMP_AMOUNT {
+					tmp = tmp.prev
+				}
+				r := oldLeft
+				for range 1 + JUMP_AMOUNT*2 {
+					tmp.nextJump = r
+					r.prevJump = tmp
+					tmp = tmp.next
+					r = r.next
+				}
+			}
+
+			{
+				tmp := node
+				for range JUMP_AMOUNT {
+					tmp = tmp.prev
+				}
+				r := node
+				for range 1 + JUMP_AMOUNT*2 {
+					tmp.nextJump = r
+					r.prevJump = tmp
+					tmp = tmp.next
+					r = r.next
+				}
 			}
 
 		}

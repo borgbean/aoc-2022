@@ -52,8 +52,10 @@ func main() {
 		log.Fatal("Failed to compile...", err)
 	}
 
+	totalTime := 0
+
 	for p := range 25 {
-		prob := exec.Command(fmt.Sprintf("%s", files[p][2:]))
+		prob := exec.Command(fmt.Sprintf("%s", files[p]))
 		prob.Dir = fmt.Sprintf("%02d/", p+1)
 
 		t1 := time.Now()
@@ -67,10 +69,11 @@ func main() {
 			}
 
 			dur := time.Since(t1)
+			totalTime += int(dur)
 
-			if dur > 300*1000000 {
+			if dur > 150*1000000 {
 				fmt.Print(Red)
-			} else if dur > 200*1000000 {
+			} else if dur > 90*1000000 {
 				fmt.Print(Yellow)
 			}
 
@@ -78,5 +81,7 @@ func main() {
 			fmt.Print(Reset)
 		}
 	}
+
+	fmt.Println("Total execution time:", totalTime/int(time.Millisecond), "ms")
 
 }

@@ -241,59 +241,67 @@ func part2(input string) string {
 				b.flowed+((limit-b.t)*b.rate),
 		)
 
-		for _, v2 := range adjToVisit {
-			if ((b.mask|a.mask)&(1<<v2)) > 0 || adjMatrix[a.v][v2] < 1 || adjList[v2].rate < 1 {
-				continue
+		if a.t <= b.t {
+			for _, v2 := range adjToVisit {
+				if ((b.mask|a.mask)&(1<<v2)) > 0 || adjMatrix[a.v][v2] < 1 || adjList[v2].rate < 1 {
+					continue
+				}
+
+				nextState := a
+				nextState.t += adjMatrix[a.v][v2] + 1
+				if nextState.t >= limit {
+					continue
+				}
+				nextState.mask |= 1 << v2
+				nextState.v = v2
+				nextState.flowed += nextState.rate * (adjMatrix[a.v][v2] + 1)
+				nextState.rate += adjList[v2].rate
+
+				dpIdx := b.mask | nextState.mask
+				dpVal := nextState.flowed + (nextState.rate * (limit - nextState.t)) +
+					b.flowed + (b.rate * (limit - b.t))
+
+				if dp[dpIdx] >= dpVal {
+					continue
+				}
+				dp[nextState.mask] = dpVal
+
+				s = append(s, [2]state{nextState, b})
 			}
-
-			nextState := a
-			nextState.t += adjMatrix[a.v][v2] + 1
-			if nextState.t >= limit {
-				continue
-			}
-			nextState.mask |= 1 << v2
-			nextState.v = v2
-			nextState.flowed += nextState.rate * (adjMatrix[a.v][v2] + 1)
-			nextState.rate += adjList[v2].rate
-
-			dpIdx := b.mask | nextState.mask
-			dpVal := nextState.flowed + (nextState.rate * (limit - nextState.t)) +
-				b.flowed + (b.rate * (limit - b.t))
-
-			if dp[dpIdx] >= dpVal {
-				continue
-			}
-			dp[nextState.mask] = dpVal
-
-			s = append(s, [2]state{nextState, b})
 		}
 
-		for _, v2 := range adjToVisit {
-			if ((b.mask|a.mask)&(1<<v2)) > 0 || adjMatrix[b.v][v2] < 1 || adjList[v2].rate < 1 {
-				continue
+		if b.t <= a.t {
+			for _, v2 := range adjToVisit {
+				if ((b.mask|a.mask)&(1<<v2)) > 0 || adjMatrix[b.v][v2] < 1 || adjList[v2].rate < 1 {
+					continue
+				}
+
+				if (b.t - a.t) > 0 {
+					break
+				}
+
+				nextState := b
+				nextState.t += adjMatrix[b.v][v2] + 1
+				if nextState.t >= limit {
+					continue
+				}
+				nextState.mask |= 1 << v2
+				nextState.v = v2
+				nextState.flowed += nextState.rate * (adjMatrix[b.v][v2] + 1)
+				nextState.rate += adjList[v2].rate
+
+				dpIdx := a.mask | nextState.mask
+				dpVal :=
+					nextState.flowed + (nextState.rate * (limit - nextState.t)) +
+						a.flowed + (a.rate * (limit - a.t))
+
+				if dp[dpIdx] >= dpVal {
+					continue
+				}
+				dp[dpIdx] = dpVal
+
+				s = append(s, [2]state{a, nextState})
 			}
-
-			nextState := b
-			nextState.t += adjMatrix[b.v][v2] + 1
-			if nextState.t >= limit {
-				continue
-			}
-			nextState.mask |= 1 << v2
-			nextState.v = v2
-			nextState.flowed += nextState.rate * (adjMatrix[b.v][v2] + 1)
-			nextState.rate += adjList[v2].rate
-
-			dpIdx := a.mask | nextState.mask
-			dpVal :=
-				nextState.flowed + (nextState.rate * (limit - nextState.t)) +
-					a.flowed + (a.rate * (limit - a.t))
-
-			if dp[dpIdx] >= dpVal {
-				continue
-			}
-			dp[dpIdx] = dpVal
-
-			s = append(s, [2]state{a, nextState})
 		}
 
 	}
